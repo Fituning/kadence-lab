@@ -1,0 +1,727 @@
+{
+  "generatedAt": "2026-09-11T18:30:00Z",
+  "startDate": "2026-09-14",
+  "weeks": [
+    {
+      "weekIndex": 1,
+      "phase": "base",
+      "sessions": [
+        {
+          "suggestedDayOfWeek": "mardi",
+          "sport": "RUNNING",
+          "type": "recovery",
+          "title": "Footing récupération",
+          "priority": "optional",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "route",
+            "sentier"
+          ],
+          "why": "Fait circuler le sang sans créer de fatigue, prépare le corps aux séances plus exigeantes de la semaine.",
+          "steps": [
+            {
+              "stepType": "active",
+              "title": "Footing très facile",
+              "tip": "Allure de balade, si tu regardes ta montre c'est que tu vas trop vite",
+              "durationMin": 40,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.8,
+                "maxPerKm": 7.3
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "jeudi",
+          "sport": "RUNNING",
+          "type": "test_hill",
+          "title": "Bilan VAM en côte",
+          "priority": "core",
+          "testDifficultyLevel": 1,
+          "suggestedTerrainType": null,
+          "why": null,
+          "steps": null,
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "samedi",
+          "sport": "RUNNING",
+          "type": "hill_repeats",
+          "title": "Côtes courtes",
+          "priority": "core",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "sentier"
+          ],
+          "why": "Recrute la filière musculaire spécifique à la montée, sans le volume d'une vraie séance de côtes plus tard dans la prépa.",
+          "steps": [
+            {
+              "stepType": "warmup",
+              "title": "Échauffement",
+              "tip": null,
+              "durationMin": 12,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.5,
+                "maxPerKm": 7
+              },
+              "targetHeartRateZone": 2,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "repeat",
+              "title": "Répétitions de côte",
+              "tip": "Monte en te concentrant sur la fréquence de pas plutôt que sur la longueur de foulée",
+              "durationMin": null,
+              "distanceKm": null,
+              "targetPace": null,
+              "targetHeartRateZone": null,
+              "targetVAM": null,
+              "repeatCount": 6,
+              "children": [
+                {
+                  "stepType": "active",
+                  "title": "Montée",
+                  "tip": null,
+                  "durationMin": 1.5,
+                  "distanceKm": null,
+                  "targetPace": null,
+                  "targetHeartRateZone": 4,
+                  "targetVAM": {
+                    "minMh": 700,
+                    "maxMh": 850
+                  },
+                  "repeatCount": null,
+                  "children": null
+                },
+                {
+                  "stepType": "active",
+                  "title": "Descente récupération",
+                  "tip": "Trot très facile, pas de chrono",
+                  "durationMin": 2,
+                  "distanceKm": null,
+                  "targetPace": null,
+                  "targetHeartRateZone": 1,
+                  "targetVAM": null,
+                  "repeatCount": null,
+                  "children": null
+                }
+              ]
+            },
+            {
+              "stepType": "cooldown",
+              "title": "Retour au calme",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 7,
+                "maxPerKm": 7.5
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "dimanche",
+          "sport": "RUNNING",
+          "type": "long_run",
+          "title": "Sortie longue",
+          "priority": "core",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "route",
+            "sentier"
+          ],
+          "why": "Construit l'endurance de fond nécessaire pour tenir la distance de course — reste en Z2, l'objectif est la durée, pas la vitesse.",
+          "steps": [
+            {
+              "stepType": "warmup",
+              "title": "Échauffement",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.8,
+                "maxPerKm": 7.2
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "active",
+              "title": "Corps de séance",
+              "tip": "Si tu montes trop vite, ralentis — l'objectif est la durée, pas l'allure",
+              "durationMin": 75,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6,
+                "maxPerKm": 6.3
+              },
+              "targetHeartRateZone": 2,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "cooldown",
+              "title": "Retour au calme",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 7,
+                "maxPerKm": 7.5
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        }
+      ]
+    },
+    {
+      "weekIndex": 2,
+      "phase": "build",
+      "sessions": [
+        {
+          "suggestedDayOfWeek": "lundi",
+          "sport": "RUNNING",
+          "type": "rest",
+          "title": "Jour de repos",
+          "priority": "optional",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": null,
+          "why": null,
+          "steps": null,
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "mardi",
+          "sport": "RUNNING",
+          "type": "interval",
+          "title": "Fractionné court",
+          "priority": "core",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "route"
+          ],
+          "why": "Développe la vitesse et l'économie de course sur du plat, complémentaire du travail en côte.",
+          "steps": [
+            {
+              "stepType": "warmup",
+              "title": "Échauffement",
+              "tip": null,
+              "durationMin": 12,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.5,
+                "maxPerKm": 7
+              },
+              "targetHeartRateZone": 2,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "repeat",
+              "title": "Fractionné 400m",
+              "tip": "Garde une allure constante sur chaque répétition plutôt que de partir trop vite sur la première",
+              "durationMin": null,
+              "distanceKm": null,
+              "targetPace": null,
+              "targetHeartRateZone": null,
+              "targetVAM": null,
+              "repeatCount": 8,
+              "children": [
+                {
+                  "stepType": "active",
+                  "title": "Effort",
+                  "tip": null,
+                  "durationMin": null,
+                  "distanceKm": 0.4,
+                  "targetPace": {
+                    "minPerKm": 4.3,
+                    "maxPerKm": 4.5
+                  },
+                  "targetHeartRateZone": 4,
+                  "targetVAM": null,
+                  "repeatCount": null,
+                  "children": null
+                },
+                {
+                  "stepType": "active",
+                  "title": "Récupération",
+                  "tip": "Marche ou trot très lent",
+                  "durationMin": 1.5,
+                  "distanceKm": null,
+                  "targetPace": null,
+                  "targetHeartRateZone": 1,
+                  "targetVAM": null,
+                  "repeatCount": null,
+                  "children": null
+                }
+              ]
+            },
+            {
+              "stepType": "cooldown",
+              "title": "Retour au calme",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 7,
+                "maxPerKm": 7.5
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "jeudi",
+          "sport": "RUNNING",
+          "type": "tempo",
+          "title": "Sortie tempo",
+          "priority": "core",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "route",
+            "sentier"
+          ],
+          "why": "Travaille le seuil : un rythme soutenu mais tenable, la base de l'allure course sur un profil roulant.",
+          "steps": [
+            {
+              "stepType": "warmup",
+              "title": "Échauffement",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.5,
+                "maxPerKm": 7
+              },
+              "targetHeartRateZone": 2,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "active",
+              "title": "Corps de séance",
+              "tip": "Rythme difficile à tenir mais pas un sprint — tu dois pouvoir dire 2-3 mots, pas plus",
+              "durationMin": 30,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 4.9,
+                "maxPerKm": 5.1
+              },
+              "targetHeartRateZone": 4,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "cooldown",
+              "title": "Retour au calme",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 7,
+                "maxPerKm": 7.5
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "samedi",
+          "sport": "BIKING",
+          "type": "cross_training",
+          "title": "Vélo endurance",
+          "priority": "optional",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "route"
+          ],
+          "why": "Apporte du volume cardio sans le stress articulaire de la course, utile avec le genou à surveiller.",
+          "steps": [
+            {
+              "stepType": "active",
+              "title": "Sortie vélo facile",
+              "tip": "Cadence de pédalage plutôt élevée, braquet léger",
+              "durationMin": 70,
+              "distanceKm": null,
+              "targetPace": null,
+              "targetHeartRateZone": 2,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "dimanche",
+          "sport": "RUNNING",
+          "type": "long_run",
+          "title": "Sortie longue avec dénivelé",
+          "priority": "core",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "sentier"
+          ],
+          "why": "Augmente progressivement le dénivelé cumulé pour habituer le corps au profil de la course.",
+          "steps": [
+            {
+              "stepType": "warmup",
+              "title": "Échauffement",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.8,
+                "maxPerKm": 7.2
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "active",
+              "title": "Corps de séance",
+              "tip": "En montée, marche si besoin plutôt que de forcer — l'important est de rester en Z2",
+              "durationMin": 95,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6,
+                "maxPerKm": 6.4
+              },
+              "targetHeartRateZone": 2,
+              "targetVAM": {
+                "minMh": 550,
+                "maxMh": 700
+              },
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "cooldown",
+              "title": "Retour au calme",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 7,
+                "maxPerKm": 7.5
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        }
+      ]
+    },
+    {
+      "weekIndex": 3,
+      "phase": "build",
+      "sessions": [
+        {
+          "suggestedDayOfWeek": "mardi",
+          "sport": "RUNNING",
+          "type": "threshold",
+          "title": "Séance seuil",
+          "priority": "core",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "route",
+            "sentier"
+          ],
+          "why": "Allonge la durée passée proche du seuil, sur une intensité un cran sous le tempo — développe la capacité à tenir un effort soutenu plus longtemps.",
+          "steps": [
+            {
+              "stepType": "warmup",
+              "title": "Échauffement",
+              "tip": null,
+              "durationMin": 12,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.5,
+                "maxPerKm": 7
+              },
+              "targetHeartRateZone": 2,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "active",
+              "title": "Corps de séance",
+              "tip": null,
+              "durationMin": 35,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 5.2,
+                "maxPerKm": 5.4
+              },
+              "targetHeartRateZone": 4,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "cooldown",
+              "title": "Retour au calme",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 7,
+                "maxPerKm": 7.5
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "jeudi",
+          "sport": "RUNNING",
+          "type": "hill_repeats",
+          "title": "Côtes longues",
+          "priority": "core",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "sentier"
+          ],
+          "why": "Répétitions plus longues que la semaine 1 pour continuer à développer la force spécifique à la montée.",
+          "steps": [
+            {
+              "stepType": "warmup",
+              "title": "Échauffement",
+              "tip": null,
+              "durationMin": 12,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.5,
+                "maxPerKm": 7
+              },
+              "targetHeartRateZone": 2,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "repeat",
+              "title": "Répétitions de côte",
+              "tip": "Sur cette durée, garde un effort géré plutôt qu'un départ trop rapide",
+              "durationMin": null,
+              "distanceKm": null,
+              "targetPace": null,
+              "targetHeartRateZone": null,
+              "targetVAM": null,
+              "repeatCount": 5,
+              "children": [
+                {
+                  "stepType": "active",
+                  "title": "Montée",
+                  "tip": null,
+                  "durationMin": 3,
+                  "distanceKm": null,
+                  "targetPace": null,
+                  "targetHeartRateZone": 4,
+                  "targetVAM": {
+                    "minMh": 650,
+                    "maxMh": 800
+                  },
+                  "repeatCount": null,
+                  "children": null
+                },
+                {
+                  "stepType": "active",
+                  "title": "Descente récupération",
+                  "tip": "Trot très facile, pas de chrono",
+                  "durationMin": 3.5,
+                  "distanceKm": null,
+                  "targetPace": null,
+                  "targetHeartRateZone": 1,
+                  "targetVAM": null,
+                  "repeatCount": null,
+                  "children": null
+                }
+              ]
+            },
+            {
+              "stepType": "cooldown",
+              "title": "Retour au calme",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 7,
+                "maxPerKm": 7.5
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "vendredi",
+          "sport": "RUNNING",
+          "type": "custom",
+          "title": "Renforcement bas du corps",
+          "priority": "optional",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": null,
+          "why": "Renforce les stabilisateurs de genou — pertinent vu la sensibilité signalée, en complément léger plutôt qu'un jour de course.",
+          "steps": null,
+          "customDescription": "20 minutes de renforcement musculaire ciblé : squats unilatéraux, gainage, travail de stabilité de cheville — à faire à la maison, sans charge additionnelle.",
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "samedi",
+          "sport": "RUNNING",
+          "type": "recovery",
+          "title": "Footing récupération",
+          "priority": "optional",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "route",
+            "sentier"
+          ],
+          "why": null,
+          "steps": [
+            {
+              "stepType": "active",
+              "title": "Footing très facile",
+              "tip": "Écoute ton genou droit — si la sensibilité revient, arrête et marche le reste",
+              "durationMin": 40,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.8,
+                "maxPerKm": 7.3
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        },
+        {
+          "suggestedDayOfWeek": "dimanche",
+          "sport": "RUNNING",
+          "type": "long_run",
+          "title": "Sortie longue",
+          "priority": "core",
+          "testDifficultyLevel": null,
+          "suggestedTerrainType": [
+            "sentier"
+          ],
+          "why": "Poursuite de la montée en volume et dénivelé, dernière grosse sortie avant la semaine de récupération.",
+          "steps": [
+            {
+              "stepType": "warmup",
+              "title": "Échauffement",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6.8,
+                "maxPerKm": 7.2
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "active",
+              "title": "Corps de séance",
+              "tip": "Pense à t'hydrater et manger un peu dès la 45ème minute",
+              "durationMin": 110,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 6,
+                "maxPerKm": 6.4
+              },
+              "targetHeartRateZone": 2,
+              "targetVAM": {
+                "minMh": 550,
+                "maxMh": 700
+              },
+              "repeatCount": null,
+              "children": null
+            },
+            {
+              "stepType": "cooldown",
+              "title": "Retour au calme",
+              "tip": null,
+              "durationMin": 10,
+              "distanceKm": null,
+              "targetPace": {
+                "minPerKm": 7,
+                "maxPerKm": 7.5
+              },
+              "targetHeartRateZone": 1,
+              "targetVAM": null,
+              "repeatCount": null,
+              "children": null
+            }
+          ],
+          "customDescription": null,
+          "routeSegment": null
+        }
+      ]
+    }
+  ]
+}

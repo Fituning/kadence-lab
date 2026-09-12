@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+    --color-secondary: #4bc1c5;
+    --color-secondary-50: #f0fbfa;
+    --color-secondary-100: #d8f5f5;
+    --color-secondary-200: #b6ebeb;
+    --color-secondary-300: #84dbdc;
+    --color-secondary-400: #4bc1c5;
+    --color-secondary-500: #2fa5ab;
+    --color-secondary-600: #2a8690;
+    --color-secondary-700: #286d76;
+    --color-secondary-800: #285a62;
+    --color-secondary-900: #254c54;
+    --color-secondary-950: #143138;
+
+    --color-primary: #b18be2;
+    --color-primary-50: #v;
+    --color-primary-100: #f2ecfb;
+    --color-primary-200: #e8ddf7;
+    --color-primary-300: #d5c2f0;
+    --color-primary-400: #b18be2;
+    --color-primary-500: #a173d9;
+    --color-primary-600: #8a55c8;
+    --color-primary-700: #7542ae;
+    --color-primary-800: #633a8f;
+    --color-primary-900: #513073;
+    --color-primary-950: #351853;
+
+    --color-accent: #cce51e;
+    --color-accent-50: #fafde9;
+    --color-accent-100: #f3fbc9;
+    --color-accent-200: #e9f699;
+    --color-accent-300: #dcf05d;
+    --color-accent-400: #cce51e;
+    --color-accent-500: #bdd218;
+    --color-accent-600: #a1ae11;
+    --color-accent-700: #838811;
+    --color-accent-800: #6d6f14;
+    --color-accent-900: #5e5e17;
+    --color-accent-950: #363608;
+
+    --color-surface-50: var(--surface-50);
+    --color-surface-100: var(--surface-100);
+    --color-surface-200: var(--surface-200);
+    --color-surface-300: var(--surface-300);
+    --color-surface-400: var(--surface-400);
+    --color-surface-500: var(--surface-500);
+    --color-surface-600: var(--surface-600);
+    --color-surface-700: var(--surface-700);
+    --color-surface-800: var(--surface-800);
+    --color-surface-900: var(--surface-900);
+    --color-surface-950: var(--surface-950);
+
+    --font-body: "Manrope", sans-serif;
+    --font-label: "Space Mono", sans-serif;
+    --font-headline: "Bebas Neue", sans-serif;
+
+    --container-10xl: 120rem;
+}
+
+:root {
+    --surface-50: #fdfcff;
+    --surface-100: #fbf8fe;
+    --surface-200: #f3eef7;
+    --surface-300: #ebe6ef;
+    --surface-400: #e3dfe8;
+    --surface-500: #dcd7e0;
+    --surface-600: #c8c4cc;
+    --surface-700: #908c94;
+    --surface-800: #858189;
+    --surface-900: #4e4a50;
+    --surface-950: #221f25;
+}
+
+.dark {
+    --surface-50: #000000;
+    --surface-100: #141117;
+    --surface-200: #211e24;
+    --surface-300: #2a262d;
+    --surface-400: #322f35;
+    --surface-500: #3c383f;
+    --surface-600: #57535a;
+    --surface-700: #716d75;
+    --surface-800: #7e7a82;
+    --surface-900: #b6b2bb;
+    --surface-950: #f0edf3;
+}

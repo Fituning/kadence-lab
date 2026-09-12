@@ -1,9 +1,11 @@
+<!-- app/app.vue -->
 <template>
-  <!-- Global layouts wrapper -->
-  <NuxtLayout>
-    <!-- Page content injector -->
-    <NuxtPage/>
-  </NuxtLayout>
+  <UApp>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
 </template>
-<script setup lang="ts">
+
+<script lang="ts" setup>
 </script>

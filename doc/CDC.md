@@ -1,5 +1,13 @@
 # Cahier des charges — KadenceLab (PWA de suivi & entraînement trail)
-*Version 2 — remplace la v1, conservée pour historique*
+*Version 6 — remplace la v5, conservée pour historique*
+
+## Ce qui change par rapport à la v5
+
+- **`programId`, `sessionId` et `stepId` retirés du JSON** (voir `programme-structure-v8.md`) : aucun n'est référencé ailleurs à l'intérieur du JSON, ils ne servaient qu'au suivi interne de l'app — désormais générés par l'app elle-même à l'import plutôt que par l'IA (évite tout risque de collision ou de format incohérent).
+- **Nom du programme** : plus de champ JSON dédié, l'app le calcule à partir de `raceGoal.name` + année de la course, déjà connus avant l'appel à l'IA.
+- **Exemple de rapport d'erreur (5.4) corrigé** : référence désormais la séance par sa position (semaine + jour) plutôt que par `sessionId`, qui n'existe plus.
+
+---
 
 ## 1. Contexte et objectif
 
@@ -8,6 +16,8 @@
 Deux briques principales :
 - **Suivi objectif** via synchronisation Google Health API (ex-Google Fit) pour récupérer les données réelles des sorties, analysées **après coup** — l'app ne pilote rien en temps réel, elle indique quoi faire avant la séance et analyse une fois la séance terminée et synchronisée.
 - **Programme d'entraînement** généré par une IA externe (sans appel API/token pour le moment), sous forme d'un JSON structuré, importé dans l'app.
+
+*Documents liés : `README.md` (roadmap et setup), `programme-structure-v8.md` (schéma JSON détaillé du programme).*
 
 ---
 
@@ -27,6 +37,8 @@ Deux briques principales :
 | **Brick (triathlon)** | Enchaînement de deux disciplines sans pause. |
 | **GPX** | Format standard de tracé GPS + profil altimétrique. |
 | **Talk-test** | Méthode de repère d'intensité basée sur la capacité à parler pendant l'effort (phrases complètes → essoufflé → silence forcé). |
+
+*Lexique détaillé des zones Z1-Z5 (repères perceptifs, à afficher côté app) : voir `programme-structure-v8.md`, section 8.*
 
 ---
 
@@ -80,6 +92,8 @@ Deux briques principales :
 
 **Principe fondamental** : le test ne vérifie pas si la FC affichée par la montre est "juste" par rapport à une formule théorique (220-âge etc.). Il **cartographie ce que TA montre affiche réellement** pendant un effort d'intensité connue et reconnaissable. Si le capteur affiche 170bpm pendant un effort clairement Z2 (respiration nasale, aucune gêne), alors la Z2 de cet utilisateur, avec ce capteur, **est** 160-175bpm — même si une formule théorique donnerait autre chose. Le programme utilisera toujours cette plage mesurée, jamais une plage théorique générique. C'est cette philosophie qui justifie tout le protocole ci-dessous.
 
+**L'app n'utilise jamais la classification de zones calculée automatiquement par Google Health** (leur découpage en 4 zones — basse/modérée/intense/max — repose sur une formule générique qui peut être largement décalée par rapport à la réalité physiologique de l'utilisateur, exactement le problème que ce protocole cherche à éviter). Seul le flux brut FC/GPS seconde par seconde est récupéré depuis Google Health ; les zones 1 à 5 utilisées dans tout KadenceLab sont exclusivement calculées à partir de ce protocole.
+
 **Avant de commencer** : terrain plat dégagé, repos les 24-48h précédentes si possible. *Avertissement : ce test comprend un effort maximal court. En cas d'antécédents cardiaques, de reprise de sport après une longue pause, ou de doute, consulter un médecin avant de le faire. Arrêter immédiatement en cas de douleur thoracique, vertige ou malaise.*
 
 **Déroulé (ordre strict, à suivre à la lettre) :**
@@ -104,9 +118,11 @@ Deux briques principales :
 
 **Traitement des artefacts capteur** : la détection ne sert **qu'à repérer les sauts brusques ponctuels à l'intérieur d'une phase** (ex : un pic isolé à 210bpm au milieu d'un palier stable à 165bpm = artefact GPS/optique à exclure du calcul). Elle ne sert **jamais** à juger si la moyenne globale d'un palier "a du sens" par rapport à une formule théorique — ce serait contraire au principe fondamental énoncé plus haut. Le calcul par palier utilise la **médiane** (plus robuste qu'une moyenne aux valeurs aberrantes) sur la fenêtre exploitée, après exclusion des sauts ponctuels.
 
-**Résultat exploitable** : pour chaque palier, un couple **FC médiane stabilisée × allure moyenne** sur la fenêtre retenue. C'est ce couple, stocké par palier et par bilan, qui alimente le graphe de progression du dashboard (5.7) — permettant de voir, par exemple, qu'à allure égale (5:34 min/km) la FC a baissé de 5bpm quatre semaines plus tard.
+**Résultat exploitable** : pour chaque palier, un couple **FC médiane stabilisée × allure moyenne** sur la fenêtre retenue. C'est ce couple, stocké par palier et par bilan, qui alimente le graphe de progression du dashboard (5.7) — permettant de voir, par exemple, qu'à allure égale (5:34 min/km) la FC a baissé de 5bpm quatre semaines plus tard. Une **FC de récupération à 60 secondes** après la fin du palier Z5 (pendant le retour au calme) est également capturée — marqueur cardiovasculaire classique, gratuit à extraire puisque cette phase suit déjà immédiatement le Z5 dans le protocole.
 
-**Capteur & recalibration** : chaque bilan stocke le type de capteur utilisé (montre optique / ceinture pectorale / modèle). En cas de changement de matériel, l'utilisateur peut relancer ce même protocole, marqué comme **recalibration** plutôt que comme nouveau bilan initial — l'historique des bilans reste cohérent, et le dashboard peut distinguer visuellement un vrai progrès d'un simple changement d'appareil.
+**Bilan sans capteur FC** : le protocole fonctionne à l'identique pour un utilisateur qui ne s'entraîne qu'avec un GPS/téléphone — les mêmes instructions (respiration nasale, talk-test, effort maximal) s'appliquent, seule l'**allure** est alors obligatoire par palier, la FC devient `null`. Le système de zones 1-5 reste inchangé pour tout le monde (le programme continue de parler en "Z2"/"Z4" comme d'habitude) ; c'est uniquement le **signal utilisé pour vérifier si une séance réelle respecte sa cible** (moteur de règles, section 7) qui bascule sur l'écart d'allure plutôt que l'écart de FC quand aucune FC n'est disponible.
+
+**Capteur & recalibration** : chaque bilan stocke le type de capteur utilisé (montre optique / ceinture pectorale / aucun, GPS seul / modèle). En cas de changement de matériel, l'utilisateur peut relancer ce même protocole, marqué comme **recalibration** plutôt que comme nouveau bilan initial — l'historique des bilans reste cohérent, et le dashboard peut distinguer visuellement un vrai progrès d'un simple changement d'appareil.
 
 **Calcul des plages de zones à partir des 3 points mesurés** : le bilan donne 3 points de mesure (FC repos actif, FC médiane Z2, FC médiane Z4, FC médiane Z5) mais pas directement des plages min/max. Méthode retenue — **chaque point mesuré devient le centre de sa zone**, et les frontières entre zones adjacentes se placent au **milieu de l'écart entre deux points voisins** :
 
@@ -122,6 +138,7 @@ Cette méthode est simple à coder, déterministe, et cohérente avec le princip
 
 ### 5.2bis Test de côte (`test_hill`)
 - Séance séparée, en conditions normales (pas enchaînée avec le test de zones), planifiée par l'IA en **semaine 1 ou 2 du programme réel** — pas un prérequis avant de démarrer l'entraînement.
+- Comme `test_zones`, l'IA ne décrit jamais le contenu de cette séance (pas de `steps`/`objectives`) — elle se contente de la positionner dans le calendrier avec un niveau de difficulté (`testDifficultyLevel`, figé à 1 pour l'instant, prévu pour évoluer vers des variantes plus exigeantes une fois définies côté app).
 
 **Déroulé :**
 1. **Échauffement — 8-10 min** : marche puis trottinement progressif, mobilisations.
@@ -142,16 +159,21 @@ Cette méthode est simple à coder, déterministe, et cohérente avec le princip
 - **GPX du parcours (optionnel)** : si fourni, l'app extrait D+/D- total, altitude min/max, plus longue montée continue, pente moyenne/max — c'est ce résumé chiffré qui est injecté dans la demande, pas le GPX brut.
 - Nombre de séances par semaine que l'utilisateur est prêt à faire
 - Jours de la semaine disponibles / contraintes
+- Nombre de séances et volume hebdomadaire **actuels** (habitude présente, distincte de la disponibilité future — permet de repérer un décalage entre le niveau perçu et la réalité mesurée, ex : quelqu'un qui court très souvent mais reste lent, visible directement dans les allures du bilan)
+- Âge (optionnel — contexte général pour le jugement de programmation, jamais utilisé pour calculer une zone FC théorique)
 - Niveau d'expérience trail (débutant / intermédiaire / confirmé)
 - **Objectif** : champ libre et volontairement simple/hypothétique (ex : "finir en moins de 3h", "ne pas souffrir en montée") — l'IA traduit cette formulation en objectifs chiffrés exploitables (zones FC cibles, allures min/km, VAM cible), pas l'utilisateur.
 - Accès à du dénivelé à l'entraînement (oui/non) et à quel type de terrain
-- Contraintes physiques ou points d'attention à signaler (texte libre, transmis à l'IA mais non conservé comme donnée de santé structurée en base)
+- **Contraintes logistiques** (accès au dénivelé, horaires serrés, etc.) et **douleurs/gênes physiques actuelles** (ex : "genoux sensibles"), demandées séparément — l'IA doit tenir compte des secondes pour une progression de charge plus prudente et éviter les séances à fort impact sur la zone concernée en début de programme, non conservées comme donnée de santé structurée en base au-delà du texte transmis à l'IA
+- **Événements de vie prévus pendant la préparation** susceptibles d'affecter la récupération (ex : "fête des vendanges à environ 1/3 de la prépa"), optionnel — permet à l'IA de positionner une semaine plus légère en amont plutôt que de le découvrir après coup
+- **As-tu déjà commencé à t'entraîner pour cette course ?** Si oui, depuis quand (date) — sert à fixer la borne minimale de `startDate` (voir instructions systématiques ci-dessous)
 
 **Instructions systématiquement ajoutées au prompt (non visibles comme "question" pour l'utilisateur, injectées automatiquement) :**
 - *"Le bilan initial de calibration des zones FC (`test_zones`) est déjà réalisé et fourni ci-dessous — ne le replanifie pas en semaine 1."*
 - *"Planifie une séance `test_hill` en semaine 1 ou 2."*
 - *"Planifie des séances de retest `test_zones` tous les 3-4 semaines tout au long du programme."*
 - *"Le champ `priority` est indicatif, pas une obligation stricte : `core` signale les séances à privilégier si l'utilisateur ne peut pas toutes les faire dans la semaine (ex : privilégier la sortie longue et le fractionné clé plutôt qu'une séance de récup)."*
+- *"`Program.startDate` ne peut pas être antérieure à [date du jour, ou la date indiquée par l'utilisateur s'il a déjà commencé son entraînement] — au-delà de cette borne, tu es libre de choisir la date de départ la plus pertinente selon le temps de préparation nécessaire."*
 
 **Fonctionnement :**
 - Réponses sauvegardées, automatiquement complétées par le dernier bilan (5.2/5.2bis) et les zones FC personnelles de l'utilisateur.
@@ -160,7 +182,7 @@ Cette méthode est simple à coder, déterministe, et cohérente avec le princip
 
 ### 5.4 Import du programme d'entraînement
 - Import du JSON (copier-coller ou upload), validation de schéma (structure, champs obligatoires, types reconnus).
-- **En cas d'erreur de schéma** : pas de rejet silencieux ni d'import partiel — l'app génère un **rapport d'erreurs lisible**, ligne par ligne (ex : "semaine 3, séance `sessionId: w3-tue` : `type` invalide, valeur reçue `'fartleck'`, valeurs attendues : ..."), avec un bouton **"Copier le rapport"** à recoller dans l'échange avec l'IA pour qu'elle corrige les lignes concernées. Rien n'est importé tant que le JSON n'est pas valide.
+- **En cas d'erreur de schéma** : pas de rejet silencieux ni d'import partiel — l'app génère un **rapport d'erreurs lisible**, ligne par ligne (ex : "semaine 3, séance de mardi : `type` invalide, valeur reçue `'fartleck'`, valeurs attendues : ..."), avec un bouton **"Copier le rapport"** à recoller dans l'échange avec l'IA pour qu'elle corrige les lignes concernées. Rien n'est importé tant que le JSON n'est pas valide.
 - Devient la référence affichée dans le calendrier de l'app.
 
 **Types de séances (`type`) — course à pied / trail :**
@@ -176,9 +198,9 @@ Cette méthode est simple à coder, déterministe, et cohérente avec le princip
 | `fartlek` | Jeu d'allure libre |
 | `technical_descent` | Travail spécifique de la descente |
 | `race_simulation` | Sortie longue avec profil proche de la course |
-| `race_trace` | Reconnaissance d'un tronçon du parcours réel |
-| `test_zones` | Bilan/retest de calibration des zones FC (protocole 5.2) — exclu du moteur de règles standard |
-| `test_hill` | Bilan/retest de VAM en côte (protocole 5.2bis) — exclu du moteur de règles standard |
+| `race_recon` | Reconnaissance d'un tronçon du parcours réel |
+| `test_zones` | Bilan/retest de calibration des zones FC (protocole 5.2) — l'IA ne décrit jamais son contenu (`steps`/`objectives` non utilisés), l'app injecte automatiquement son propre protocole ; exclu du moteur de règles standard |
+| `test_hill` | Bilan/retest de VAM en côte (protocole 5.2bis) — même logique que `test_zones`, exclu du moteur de règles standard |
 | `cross_training` | Vélo/natation en complément |
 | `rest` | Jour de repos explicite |
 | `custom` | Séance libre, avec `customLabel` pour préciser |
@@ -201,7 +223,7 @@ Déclenché après chaque séance rapprochée. Volontairement court.
 2. Perception vs plan : trop facile / adaptée / trop dure
 3. Douleur ou gêne physique : oui/non (+ zone en texte libre si oui)
 
-**Sorties longues/intenses (`long_run`, `tempo`, `threshold`, `hill_repeats`, `race_simulation`, `race_trace`) — questions additionnelles :**
+**Sorties longues/intenses (`long_run`, `tempo`, `threshold`, `hill_repeats`, `race_simulation`, `race_recon`) — questions additionnelles :**
 4. Qualité du sommeil la veille (1 à 5)
 5. Hydratation/alimentation pendant la séance : ok / insuffisante
 
@@ -237,63 +259,19 @@ Déclenché après chaque séance rapprochée. Volontairement court.
 
 ---
 
-## 6. Structure JSON du programme (version consolidée)
+## 6. Structure JSON du programme
 
-```json
-{
-  "programId": "string",
-  "name": "string",
-  "startWeek": 0,
-  "targetRaceWeek": 0,
-  "weeks": [
-    {
-      "weekNumber": 0,
-      "focus": "string",
-      "sessions": [
-        {
-          "sessionId": "string",
-          "sport": "RUNNING | BIKING | SWIMMING",
-          "title": "string",
-          "subtitle": "string (ex: 40min Z2)",
-          "description": "string",
-          "type": "string (voir liste section 5.4)",
-          "customLabel": "string (uniquement si type = custom)",
-          "priority": "core | optional",
-          "terrainType": "route | sentier | technique (facultatif, RUNNING)",
-          "totalDurationMinutes": 0,
-          "elevationGainMeters": 0,
-          "steps": [
-            {
-              "stepOrder": 0,
-              "stepType": "warmup | active | cooldown | repeat",
-              "durationMinutes": 0,
-              "targetHeartRateZone": 0,
-              "targetPaceMinKm": [0, 0],
-              "targetVAMmh": [0, 0],
-              "iterations": 0,
-              "phases": [
-                {
-                  "phaseType": "active | recovery",
-                  "durationMinutes": 0,
-                  "targetHeartRateZone": 0,
-                  "targetPaceMinKm": [0, 0],
-                  "targetVAMmh": [0, 0]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
+Le schéma JSON complet est maintenu dans un document dédié, **`programme-structure-v8.md`**, seule source de vérité sur ce point.
 
-Notes :
-- **Pas de bloc `heartRateZones` fixe dans le programme** : `targetHeartRateZone` ne contient qu'un **numéro de zone (1 à 5)**. L'app résout ce numéro en plage bpm réelle **au moment de l'affichage**, à partir des zones les plus récentes du profil utilisateur (issues de son dernier `test_zones`/recalibration) — jamais depuis une valeur figée dans le JSON. Ainsi, une séance "Zone 2" planifiée en semaine 1 (ex : 145-155 bpm à ce moment) reste "Zone 2" en semaine 4 même si l'utilisateur a changé de montre et que sa Z2 mesurée est devenue 130-140 bpm. Le bilan fait toujours autorité sur les plages, jamais le programme.
-- `priority` est indicatif (voir 5.3), pas une contrainte stricte — il alimente le moteur de règles pour prioriser en cas de séances manquées.
-- `targetVAMmh` complète `targetHeartRateZone`/`targetPaceMinKm` pour les portions en côte (`hill_repeats`, `race_trace`, portions montée de `race_simulation`) — en côte la FC et l'allure seules peuvent être trompeuses à cause de la pente.
-- **Point encore ouvert** : les `targetPaceMinKm` du JSON, eux, restent des valeurs figées au moment de la génération — contrairement aux zones FC, ils ne se recalculent pas automatiquement après un retest positif. À trancher : régénérer un programme complet après chaque retest significatif, ou faire recalculer dynamiquement les allures cibles par l'app à partir des nouvelles zones FC.
+Rappel des principes structurants qui y sont détaillés :
+- Le JSON est **à usage unique** : il ne sert qu'à l'import initial, aucun état vivant (statut réel, résultats, ressenti) n'y est stocké — tout ça vit en base après import.
+- `athlete` et `raceGoal` ne sont **plus dans le JSON importé** : ce sont des données envoyées à l'IA dans le prompt, mais déjà connues de l'app, qui n'a pas besoin qu'elles reviennent.
+- **Terrain unifié** : un seul enum (`route`/`sentier`/`technique`/`rivière`) partagé entre le parcours réel de la course et les suggestions de terrain d'entraînement.
+- **`Session.objectives` et `Session.targetHeartRateZone` n'existent plus** : ces totaux/zones résumés sont désormais calculés par l'app à partir des `steps[]`, jamais écrits par l'IA — une seule source de vérité.
+- `Program.startDate` reste dans le JSON, **choisi par l'IA** dans une borne minimale imposée par instruction de prompt (aujourd'hui, ou la date indiquée par l'utilisateur s'il a déjà commencé son entraînement) — les séances portent un `suggestedDayOfWeek` (pas une date fixe), cohérent avec le fait que le plan n'est pas suivi jour pour jour dans l'usage réel.
+- `priority` (`core`/`optional`) reste indicatif, pas une contrainte stricte.
+- `targetVAM` complète `targetHeartRateZone`/`targetPace` au niveau `Step`, pour les portions en côte.
+- **Point encore ouvert** (détaillé dans le document dédié) : les allures cibles du JSON restent figées au moment de la génération — contrairement aux zones FC, elles ne se recalculent pas automatiquement après un retest positif ; à trancher entre régénération complète du programme ou recalcul dynamique côté app.
 
 ---
 
@@ -308,13 +286,15 @@ Notes :
 
 ### 7.1 Matrice FC objective × ressenti subjectif
 
-| FC réelle vs cible | Ressenti déclaré | Action |
+Le signal objectif utilisé est la **FC si disponible, l'allure sinon** (utilisateur sans capteur FC, cf. 5.2) — même matrice, même logique `core`/`optional`, seule la donnée de comparaison change.
+
+| FC (ou allure) réelle vs cible | Ressenti déclaré | Action |
 |---|---|---|
 | Conforme | Normal | Aucune adaptation |
-| Trop haute | Facile (RPE bas) | Aucune adaptation — écart loggé, sans conséquence |
-| Trop haute | Difficile (RPE élevé) | Séance suivante du même `type` allégée de ~20%, pas de progression d'intensité tant que le ressenti ne redescend pas |
+| Trop haute (ou trop rapide) | Facile (RPE bas) | Aucune adaptation — écart loggé, sans conséquence |
+| Trop haute (ou trop rapide) | Difficile (RPE élevé) | Séance suivante du même `type` allégée de ~20%, pas de progression d'intensité tant que le ressenti ne redescend pas |
 | Conforme | Difficile (RPE élevé) | Flag "à surveiller", confirmation utilisateur avant d'agir |
-| Trop basse | Facile | Signal positif — pris en compte pour la progression du bloc suivant |
+| Trop basse (ou trop lente) | Facile | Signal positif — pris en compte pour la progression du bloc suivant |
 
 *(Ne s'applique pas aux séances `test_zones` / `test_hill`, exclues du moteur de règles.)*
 
