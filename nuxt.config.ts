@@ -18,6 +18,13 @@ export default defineNuxtConfig({
                 clientSecret: '',
             }
         },
+        postgres:{
+            user:'',
+            password:'',
+            db:'',
+            host:'',
+            port:''
+        }
         // public : {}
     }
 })

@@ -1,4 +1,6 @@
-
+import {db} from "#server/utils/db.ts";
+import {users} from "#server/database/schema/user.ts";
+import {eq} from "drizzle-orm";
 
 
 export default defineOAuthGoogleEventHandler({
@@ -6,9 +8,19 @@ export default defineOAuthGoogleEventHandler({
         scope: ['openid', 'email', 'profile']
     },
     async onSuccess(event, {user, tokens}){
+        let dbUser = await db.select().from(users).where(eq(users.sub, user.sub))
+        if (dbUser.length === 0) {
+            dbUser = await db.insert(users).values({
+                sub: user.sub,
+                firstName: user.given_name,
+                lastName: user.family_name,
+                email: user.email,
+                picture: user.picture,
+            }).returning()
+        }
         await setUserSession(event, {
             user: {
-                google: user.sub
+                id: dbUser[0]!.id,
             }
         })
         return sendRedirect(event, '/')

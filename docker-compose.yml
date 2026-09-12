@@ -1,0 +1,22 @@
+services:
+  kadence-lab-postgres:
+    image: postgres:16-alpine
+    container_name: kadence-lab-postgres    # ← unique sur toute la machine, pas "postgres"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${NUXT_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${NUXT_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${NUXT_POSTGRES_DB}
+    ports:
+      - "${NUXT_POSTGRES_PORT}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - gateway-net
+
+volumes:
+  postgres-data:
+
+networks:
+  gateway-net:
+    external: true
