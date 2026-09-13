@@ -16,6 +16,14 @@ export default defineNuxtConfig({
             google: {
                 clientId: '',
                 clientSecret: '',
+                redirectUrl: '',
+            }
+        },
+        google : {
+            health : {
+                clientId: '',
+                clientSecret: '',
+                redirectUrl: '',
             }
         },
         postgres:{
@@ -24,7 +32,8 @@ export default defineNuxtConfig({
             db:'',
             host:'',
             port:''
-        }
+        },
+        encryptionKey : ''
         // public : {}
     }
 })

@@ -9,3 +9,11 @@ export const users = pgTable('users', {
     picture: text('picture'),
     createdAt: timestamp('created_at').notNull().defaultNow(),
 });
+
+// server/db/schema.ts
+export const googleHealthTokens = pgTable('google_health_tokens', {
+    userId: uuid('user_id').primaryKey().references(() => users.id),
+    accessToken: text('access_token').notNull(),
+    refreshToken: text('refresh_token').notNull(), // à chiffrer avant insert
+    expiresAt: timestamp('expires_at').notNull(),
+})

@@ -75,15 +75,15 @@
 }
 
 .dark {
-    --surface-50: #000000;
-    --surface-100: #141117;
-    --surface-200: #211e24;
-    --surface-300: #2a262d;
-    --surface-400: #322f35;
-    --surface-500: #3c383f;
-    --surface-600: #57535a;
-    --surface-700: #716d75;
-    --surface-800: #7e7a82;
-    --surface-900: #b6b2bb;
-    --surface-950: #f0edf3;
+    --surface-50: #000000;   /* noir pur, pour un fond ultime si besoin */
+    --surface-100: #0a0e15;  /* surface-container-lowest */
+    --surface-200: #0f141a;  /* surface / surface-dim */
+    --surface-300: #181c23;  /* surface-container-low */
+    --surface-400: #1c2027;  /* surface-container */
+    --surface-500: #262a32;  /* surface-container-high */
+    --surface-600: #2d3038;  /* inverse-on-surface */
+    --surface-700: #31353d;  /* surface-container-highest */
+    --surface-800: #353941;  /* surface-bright */
+    --surface-900: #85878A;  /* on-surface-variant */
+    --surface-950: #dfe2ec;  /* on-surface / inverse-surface */
 }
