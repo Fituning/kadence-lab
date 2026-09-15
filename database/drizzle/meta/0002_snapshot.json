@@ -1,0 +1,604 @@
+{
+  "id": "fd8627c9-feb0-4d3f-9da3-23954c55ba26",
+  "prevId": "5b6da1d3-2928-4ac2-82e1-eac75f0afe28",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.programs": {
+      "name": "programs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "race_id": {
+          "name": "race_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "generated_at": {
+          "name": "generated_at",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "programs_user_id_users_id_fk": {
+          "name": "programs_user_id_users_id_fk",
+          "tableFrom": "programs",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "programs_race_id_race_id_fk": {
+          "name": "programs_race_id_race_id_fk",
+          "tableFrom": "programs",
+          "tableTo": "race",
+          "columnsFrom": [
+            "race_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.race": {
+      "name": "race",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "distance": {
+          "name": "distance",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "elevation_gain_m": {
+          "name": "elevation_gain_m",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "location": {
+          "name": "location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "terrain": {
+          "name": "terrain",
+          "type": "terrain_type[]",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "target_time": {
+          "name": "target_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gpx_ref": {
+          "name": "gpx_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.sessions": {
+      "name": "sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "week_id": {
+          "name": "week_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "suggested_day_of_week": {
+          "name": "suggested_day_of_week",
+          "type": "week_day",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scheduled_date": {
+          "name": "scheduled_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sport": {
+          "name": "sport",
+          "type": "sport",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'RUNNING'"
+        },
+        "type": {
+          "name": "type",
+          "type": "session_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "session_title": {
+          "name": "session_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "priority": {
+          "name": "priority",
+          "type": "session_priority",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "test_difficulty_level": {
+          "name": "test_difficulty_level",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "suggested_terrain_type": {
+          "name": "suggested_terrain_type",
+          "type": "terrain_type[]",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "why": {
+          "name": "why",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "custom_description": {
+          "name": "custom_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "steps": {
+          "name": "steps",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "route_segment": {
+          "name": "route_segment",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sessions_week_id_weeks_id_fk": {
+          "name": "sessions_week_id_weeks_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "weeks",
+          "columnsFrom": [
+            "week_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.google_health_tokens": {
+      "name": "google_health_tokens",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "google_health_tokens_user_id_users_id_fk": {
+          "name": "google_health_tokens_user_id_users_id_fk",
+          "tableFrom": "google_health_tokens",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "sub": {
+          "name": "sub",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "picture": {
+          "name": "picture",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "level": {
+          "name": "level",
+          "type": "user_level",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'beginner'"
+        },
+        "date_of_birth": {
+          "name": "date_of_birth",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preferred_weekly_availability": {
+          "name": "preferred_weekly_availability",
+          "type": "week_day[]",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preferred_weekly_sessions": {
+          "name": "preferred_weekly_sessions",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "logistical_constraints": {
+          "name": "logistical_constraints",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "injury_or_pain_concerns": {
+          "name": "injury_or_pain_concerns",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "planned_life_events": {
+          "name": "planned_life_events",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_sub_unique": {
+          "name": "users_sub_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "sub"
+          ]
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.weeks": {
+      "name": "weeks",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "program_id": {
+          "name": "program_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "week_index": {
+          "name": "week_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phase": {
+          "name": "phase",
+          "type": "week_phase",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "weeks_program_id_programs_id_fk": {
+          "name": "weeks_program_id_programs_id_fk",
+          "tableFrom": "weeks",
+          "tableTo": "programs",
+          "columnsFrom": [
+            "program_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.heart_rate_zone": {
+      "name": "heart_rate_zone",
+      "schema": "public",
+      "values": [
+        "Z1",
+        "Z2",
+        "Z3",
+        "Z4",
+        "Z5"
+      ]
+    },
+    "public.session_priority": {
+      "name": "session_priority",
+      "schema": "public",
+      "values": [
+        "core",
+        "optional"
+      ]
+    },
+    "public.session_type": {
+      "name": "session_type",
+      "schema": "public",
+      "values": [
+        "recovery",
+        "long_run",
+        "interval",
+        "tempo",
+        "threshold",
+        "hill_repeats",
+        "fartlek",
+        "technical_descent",
+        "race_simulation",
+        "race_recon",
+        "test_zones",
+        "test_hill",
+        "cross_training",
+        "rest",
+        "custom"
+      ]
+    },
+    "public.sport": {
+      "name": "sport",
+      "schema": "public",
+      "values": [
+        "RUNNING",
+        "BIKING",
+        "SWIMMING"
+      ]
+    },
+    "public.terrain_type": {
+      "name": "terrain_type",
+      "schema": "public",
+      "values": [
+        "road",
+        "technical",
+        "trail",
+        "river"
+      ]
+    },
+    "public.user_level": {
+      "name": "user_level",
+      "schema": "public",
+      "values": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ]
+    },
+    "public.week_day": {
+      "name": "week_day",
+      "schema": "public",
+      "values": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ]
+    },
+    "public.week_phase": {
+      "name": "week_phase",
+      "schema": "public",
+      "values": [
+        "base",
+        "build",
+        "peak",
+        "taper",
+        "recovery"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

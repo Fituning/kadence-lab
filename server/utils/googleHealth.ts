@@ -1,4 +1,4 @@
-import {googleHealthTokens} from "#server/database/schema/user.ts";
+import {googleHealthTokens} from "#shared/database/schema/user.ts";
 import {eq} from "drizzle-orm";
 import {decrypt} from "#server/utils/crypto.ts";
 

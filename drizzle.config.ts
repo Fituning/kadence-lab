@@ -13,8 +13,8 @@ function getDatabaseUrl() {
 }
 
 export default defineConfig({
-    out: './server/database/drizzle',
-    schema: './server/database/schema/*',
+    out: './database/drizzle',
+    schema: ['./shared/database/schema/*', './shared/database/enums.ts'],
     dialect: 'postgresql',
     dbCredentials: {
         url: getDatabaseUrl(),
