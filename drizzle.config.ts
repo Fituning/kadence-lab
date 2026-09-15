@@ -3,11 +3,15 @@ import 'dotenv/config';
 import { defineConfig } from 'drizzle-kit';
 
 function getDatabaseUrl() {
-    const user = encodeURIComponent(process.env.NUXT_POSTGRES_USER);
-    const password = encodeURIComponent(process.env.NUXT_POSTGRES_PASSWORD);
-    const host = process.env.NUXT_POSTGRES_HOST;
-    const port = process.env.NUXT_POSTGRES_PORT;
-    const database = process.env.NUXT_POSTGRES_DB;
+    if (process.env.DATABASE_URL) {
+        return process.env.DATABASE_URL
+    }
+
+    const user = encodeURIComponent(process.env.DATABASE_USER);
+    const password = encodeURIComponent(process.env.DATABASE_PASSWORD);
+    const host = process.env.DATABASE_HOST;
+    const port = process.env.DATABASE_PORT;
+    const database = process.env.DATABASE_NAME;
 
     return `postgres://${user}:${password}@${host}:${port}/${database}`;
 }
