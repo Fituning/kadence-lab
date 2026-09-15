@@ -1,13 +1,15 @@
 
 
 <template>
-  <div class="h-fit p-2 px-4 inset-0 fixed z-50 top-0 flex bg-surface-200 text-boulder-900 transition-all duration-700 shadow-sm justify-between items-center" :class="{'opacity-25 -translate-y-18': !isNavbarVisible}">
+  <div class="h-fit p-2 px-4 inset-0 fixed z-50 top-0 flex bg-surface-100 text-boulder-900 transition-all duration-700 shadow-sm justify-between items-center" :class="{'opacity-25 -translate-y-18': !isNavbarVisible}">
     <div class="font-headline text-surface-900 font-semibold text-2xl tracking-wide">
       Kadence <span class="text-primary" >Lab</span>
     </div>
     <div class="flex gap-2 items-center">
 
-      <UIcon name="tabler:moon-stars" class="size-5"></UIcon>
+      <div @click="toggleColorMode" class="rounded-full h-fit bg-surface-300 text-surface-900 aspect-square text-center inline-flex items-center justify-center p-2 active:scale-95 active:bg-surface-400 transition-all duration-200 ease-in-out cursor-pointer">
+        <UIcon :name="isDark ? 'tabler:sun' : 'tabler:moon-stars'" class="size-5"></UIcon>
+      </div>
       <div @click="logout" class="rounded-full h-fit bg-secondary-400 text-secondary-950 aspect-square text-center inline-flex items-center justify-center p-2 active:scale-95 active:bg-secondary-500 transition-all duration-200 ease-in-out">
         <UIcon name="tabler:user-x" class="size-5"></UIcon>
       </div>
@@ -18,9 +20,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 
 const { loggedIn, user, clear } = useUserSession()
+
+const colorMode = useColorMode()
+const isDark = computed(() => colorMode.value === 'dark')
+
+function toggleColorMode() {
+  colorMode.preference = isDark.value ? 'light' : 'dark'
+}
 
 const isMobileMenuOpen = ref(false)
 

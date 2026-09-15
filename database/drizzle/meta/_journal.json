@@ -15,6 +15,13 @@
       "when": 1789320013298,
       "tag": "0001_nostalgic_the_hunter",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789420237677,
+      "tag": "0002_black_roulette",
+      "breakpoints": true
     }
   ]
 }

@@ -2,6 +2,9 @@
   "name": "kadence-lab",
   "type": "module",
   "private": true,
+  "imports": {
+    "#shared/*": "./shared/*"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

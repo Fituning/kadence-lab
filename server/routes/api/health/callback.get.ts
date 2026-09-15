@@ -1,4 +1,4 @@
-import {googleHealthTokens} from "#server/database/schema/user.ts";
+import {googleHealthTokens} from "#shared/database/schema/user.ts";
 import {encrypt} from "#server/utils/crypto.ts";
 
 export default defineEventHandler(async (event) => {
